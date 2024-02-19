@@ -1,0 +1,261 @@
+-Workplace dcode Call Apis with Fetch
+-AJAX vs Fetch 
+
+https://www.youtube.com/watch?v=2sQ9xiEAXNo
+
+
+basic fetch.js 
+
+Json - an array with a bunch of objects 
+tell js to tell the browser and ask for a copy of the file and generate data without refreshing the entire webpage -- the whole idea of fetch 
+
+fetch()
+
+you pass through it a string that is a URL 
+
+-in order to grab the data you need to add more to the fetch request
+
+
+
+
+export function getData() {
+
+fetch(url) //when you get the data back it passes it onto the .then method
+.then ((resp)=>{ //we get our response back 
+///need to know what is in the  200-299 range
+
+if (!resp.ok) throw new Error("was not a valid response");
+return resp.json(); //method to extract JSON string and convert it to an object //this return takes us to the next .then()
+})
+.then(dataobj)=>{
+
+}
+.catch(err=> {
+console.warn(err.message)
+}); //this catch is to check what the status of the response is and want to do error handling and check for problem  
+
+}
+
+
+function fred(resp){}
+
+
+
+let response = fetch(url)
+let dataobj = response.json()
+console.log(dataobj) 
+
+//this will fail because the fetch function returns a promise, we need to use .then because we need to wait for the promise 
+
+
+
+
+
+2. try-async.js 
+
+
+export async function getData(){
+let response = await fetch(url); //because its asynchronous we are allowed to use await 
+let dataobj - await response.json();
+}
+
+//you can’t just leave this empty because there will be no error handling, it needs to look more like this >> 
+
+try {
+
+export async function getData(){
+let response = await fetch(url); //because its asynchronous we are allowed to use await 
+if (!response.ok) throw new Error(‘not a valid response’); //need this error handling for the async function just like the vanilla object above
+let dataobj - await response.json();
+}catch(err) {
+console.warn(err.message)
+}
+
+
+
+
+
+url requests 
+
+-URL and request objects 
+
+url: href, host, hostname, port, protocol, pathname, origin, hash, search 
+
+-different pieces that makeup a URL 
+export function getData(){
+const url = new URL(str) //you can get the url.host, url.origin, url.protocol, url.port just by wrapping it as a str
+
+request options: method, body, headers, cache
+default: check the cache first, server request if stale, update cache if newer
+reload: always go to the server AND update the cache 
+no-store: always go to the server but do not update the cache 
+no-cache: make a conditional request to a server, compare and update the cache
+everytime you visit a website, your requests are stored in the browser cache (HTTP cache)
+//you can pass a URL or a REQUEST  to a fetch object
+
+
+fetch(url).then((response) => {
+console.log(response.status)
+};// can pass a url to a fetch function
+
+const request = new Request(url, { //init property
+headers: {‘x-steve’:’hello’},
+method: ‘GET’ //this is reading data from the server
+cache: ‘no store’,
+
+})
+
+fetch(request).then(response) => {
+if (!response.ok) throw new Error(‘Invalid’);
+return response.json();
+}).then((data) => {
+console.log(data);
+)
+.catch(err=>console.warn(err.message));
+
+}
+
+}
+
+
+
+
+URL response 
+
+//Http request - head, body //not supposed to put anything in the body when you make a request, header and cache settings are the in the head of the request the body is the actual file 
+//HTTP response = head, body 
+
+let obj = {
+id: crypto.randUUID(),
+name: 'the one who knocks',
+favouriteColor: 'blue',
+
+};
+
+export function getData() {
+let jsonstring = JSON.stringify(obj);
+let file = new file([jsonstring], 'mydata.json', {type: 'application/json'}); //this is the body of the http response 
+
+let response = new Response(file, { //you don’t need to make a request to create a response object, below is whats in the body of the response 
+status: 200, 
+statusText: 'Say my name',
+headers: {
+'content-type': 'application/json',
+'content-length': file.size, //in bytes 
+} //three properties inside the response object, status, statusText and headers, can come up with your own headers but they need to start with the letter x 
+//can access the headers with response.headers.get()
+}
+
+
+}
+to make a response for an img file 
+
+export function getData(){
+fetch(imgstr)
+.then(resp=>{
+if (!resp.ok) throw new Error(‘invalid’);
+return resp.blob(); //binary large object 
+})
+.then(blob) => {
+
+console.log(blob) //blob is a chunk of memory to pass it back to the code you need to turn it back into a URL with the URL object so there is a pointer back to this memory
+let url = URL.createObjectUrl(blob); 
+let img = document.getElementById(‘pic’);
+})
+.catch(console.warn);
+
+
+
+}
+
+///for a json object 
+
+
+export function getData() {
+
+fetch(jsonstr)
+.then((response) => {
+if (!response.ok) throw new Error(‘invalid’)
+return response.json()
+}.then((data) => {
+
+list.innerHTML = data.map((idx, val) => { //
+return `<li data-uuid=”${val.uid}> 
+<p> ${val.firstname} </p>
+<p> ${val.lastname} </p>
+<li />`
+
+}.catch(err) => {
+console.warn(err)
+}
+
+
+}
+
+
+
+
+
+
+interpolation is when you use backticks within jsx/html
+
+api - application programming interface 
+export function getData(){
+//what is an api key ---> data sent to you from a server
+//put the key inside an environment variable, which is not inside your code
+	-keys can go in the query string, cookies (header), headers 
+//endpoint is the url
+//where can we pass it to the server
+//controlling when cookies and credentials are passed to a server
+//CSP meta tags and headers
+let str = ‘http://127.0.0.1:3000/’
+let url = new URL(str);
+let sp = url.searchParams;
+sp.append(‘hello’, ‘world’)
+sp.append(‘api-key’, ‘jidjiorf’);
+
+let h = new Headers();
+h.append(‘x-api-key’, ‘jriofo’);
+h.append(‘Authorization’, ‘Bearer jfioefkeo’); //this is a common way to send a JSON web token
+
+let request = new Request(url, {
+method: ‘GET’,
+headers: h,
+
+});
+
+fetch(request).then(response=>{
+if !(response.ok) throw new Error(‘invalid’);
+}).then(
+
+)
+}.catch(console.warn);
+
+
+main.js 
+const express = require('express')
+const cors = require('cors');
+const app = express();
+const port = 3000
+
+//cd server
+//npm i 
+//node main.js
+
+app.use(cors());
+
+app.get('/', (req, res) =>{
+res.send(‘Hello World’)
+
+})
+app.post(‘/’, (req, res) =>{
+res.status(‘201’).send(‘thanks for adding something’);
+});
+
+app.put(‘:/id’, (req, res) => {
+res.status(‘200’).send(‘thanks for updating something’);
+})
+
+//etc etc 
+
+
