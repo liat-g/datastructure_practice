@@ -1,0 +1,35 @@
+based off of arrays 
+hashmap is created from a hash function and maps the val onto a key 
+a key in a hashmap is immutable 
+France: Paris
+Pakistan : Islamabad 
+Japan  : Tokyo 
+
+Hash function
+France = index 0 
+Pakistan = index 1 
+Japan = index 2
+
+doesnt need to go through every element on the list 
+hashmaps are called dictionaries in python 
+first initialize the hashmap 
+city_map = {}
+city+map = dict()
+
+
+to add key value pairs
+
+first initialize the key 
+cities = ["Calgary", "Vancouver", "Toronto"]
+city_map["Canada"]= []
+city_map["Canada"] += cities
+
+##result will look like {‘Canada’: [‘Calgary’, ‘Vancouver’, ‘Toronto’]}
+
+To avoid having to initialize keys, use defaultDict, will save you time and energy 
+from collections import defaultdict 
+city_map = defaultdict(list)
+cities = ["Calgary", "Vancouver", "Toronto"]
+city_map["Canada"] += cities
+
+
