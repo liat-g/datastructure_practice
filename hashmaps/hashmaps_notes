@@ -33,3 +33,9 @@ cities = ["Calgary", "Vancouver", "Toronto"]
 city_map["Canada"] += cities
 
 
+how to retrieve hashmap vals
+
+hashmap.keys() - returns all of the keys in the dict in the form of a list
+hashmap.values() - returns a list of the vals 
+hashmap.items() - returns all of the key value pairs as tuples
+
